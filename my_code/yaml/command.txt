@@ -1,0 +1,11 @@
+irene : python main_forget.py --save_dir 'val_seed/' --model_path 'ivan/0checkpoint.pth.tar' --unlearn irene --num_indexes_to_replace 4500 --unlearn_epochs 10 --unlearn_lr 0.10 --seed 3 --gold_model_path='val_seed/retraincheckpoint.pth.tar' --decreasing_lr="5,100" --alpha=0.2
+FT : python main_forget.py --save_dir 'val_seed/' --model_path 'ivan/0checkpoint.pth.tar' --unlearn FT --num_indexes_to_replace 4500 --unlearn_epochs 10 --unlearn_lr 0.005 --seed 3 --gold_model_path='val_seed/retraincheckpoint.pth.tar'
+L1-sparse : python main_forget.py --save_dir 'val_seed/' --model_path 'ivan/0checkpoint.pth.tar' --unlearn FT_prune --num_indexes_to_replace 4500 --unlearn_epochs 10 --unlearn_lr 0.01 --seed 3 --gold_model_path='val_seed/retraincheckpoint.pth.tar' --alpha=0.00001
+SalUn : python main_forget.py --save_dir 'val_seed/' --model_path 'ivan/0checkpoint.pth.tar' --unlearn RL --num_indexes_to_replace 4500 --unlearn_epochs 10 --unlearn_lr 0.01 --seed 3 --gold_model_path='val_seed/retraincheckpoint.pth.tar' --mask_path=mask/with_0.4.pt
+NegGradPlus : python main_forget.py --save_dir 'val_seed/' --model_path 'ivan/0checkpoint.pth.tar' --unlearn NegGradPlus --num_indexes_to_replace 4500 --unlearn_epochs 5 --unlearn_lr 0.01 --seed 3 --gold_model_path='val_seed/retraincheckpoint.pth.tar' --alpha=0.9
+
+For femnist :
+python my_code/main_train.py --arch resnet18 --dataset femnist --lr 0.0005 --epochs 120 --save_dir='run_femnist/' --weight_decay=0.001 --decreasing_lr '180'
+python my_code/main_forget.py --save_dir 'run_femnist' --model_path 'run_femnist/0checkpoint.pth.tar' --unlearn retrain --unlearn_epochs 120 --unlearn_lr 0.0005 --dataset=femnist --weight_decay=0.001 --decreasing_lr '180'
+python my_code/main_forget.py --save_dir 'run_femnist' --model_path 'run_femnist/0checkpoint.pth.tar' --unlearn irene --dataset femnist --unlearn_epochs 10 --unlearn_lr 0.10 --gold_model_path='run_femnist/retraincheckpoint.pth.tar' --decreasing_lr="5,100" --alpha=0.2 --gamma=0.01
+python my_code/main_forget.py --dataset femnist --unlearn RL --unlearn_epochs 10 --unlearn_lr 0.0005 --model_path 'run_femnist/0checkpoint.pth.tar' --save_dir 'run_femnist' --mask_path my_code/mask/with_0.5.pt --gold_model_path='run_femnist/retraincheckpoint.pth.tar'
