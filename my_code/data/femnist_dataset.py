@@ -16,12 +16,13 @@ class FEMNIST(Dataset):
     "LEAF: A Benchmark for Federated Settings" https://arxiv.org/abs/1812.01097.
     """
 
-    def __init__(self, train=True, transform=None, target_transform=None, ):
+    def __init__(self, train=True, transform=None, target_transform=None, download=False, path_to_data=""):
         super(FEMNIST, self).__init__()
         self.transform = transform
         self.target_transform = target_transform
         self.train = train
 
+        
         train_clients, train_groups, train_data_temp, test_data_temp = read_data("Classification/data/femnist/train",
                                                                                  "Classification/data/femnist/test")
         if self.train:
